@@ -1,0 +1,1119 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ubuntu," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="自己在反复重装过程总结出的经验。可以供大家参考 笔记本开机亮度每次都是来那个瞎眼的亮度，我也是醉了，14.04居然还没有修复这个bug。">
+<meta name="keywords" content="ubuntu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu通用优化设置">
+<meta property="og:url" content="http://yoursite.com/2015/10/28/ubuntu_optimize/index.html">
+<meta property="og:site_name" content="Lixingcong">
+<meta property="og:description" content="自己在反复重装过程总结出的经验。可以供大家参考 笔记本开机亮度每次都是来那个瞎眼的亮度，我也是醉了，14.04居然还没有修复这个bug。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-09T13:18:06.388Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ubuntu通用优化设置">
+<meta name="twitter:description" content="自己在反复重装过程总结出的经验。可以供大家参考 笔记本开机亮度每次都是来那个瞎眼的亮度，我也是醉了，14.04居然还没有修复这个bug。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/10/28/ubuntu_optimize/"/>
+
+
+
+
+
+  <title> ubuntu通用优化设置 | Lixingcong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-66672466-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lixingcong</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      <!--增加high一下-->
+
+<li class="mw-harlem_shake_me im_first  menu-item menu-item-tags">
+<a title="" href='javascript:(function() {
+	function c() {
+		var e = document.createElement("link");
+		e.setAttribute("type", "text/css");
+		e.setAttribute("rel", "stylesheet");
+		e.setAttribute("href", f);
+		e.setAttribute("class", l);
+		document.body.appendChild(e)
+	}
+
+	function h() {
+		var e = document.getElementsByClassName(l);
+		for (var t = 0; t < e.length; t++) {
+			document.body.removeChild(e[t])
+		}
+	}
+
+	function p() {
+		var e = document.createElement("div");
+		e.setAttribute("class", a);
+		document.body.appendChild(e);
+		setTimeout(function() {document.body.removeChild(e)}, 100)
+	}
+
+	function d(e) {
+		return {
+			height : e.offsetHeight,
+			width : e.offsetWidth
+		}
+	}
+
+	function v(i) {
+		var s = d(i);
+		return s.height > e && s.height < n && s.width > t && s.width < r
+	}
+
+	function m(e) {
+		var t = e;
+		var n = 0;
+		while (!!t) {
+			n += t.offsetTop;
+			t = t.offsetParent
+		}
+		return n
+	}
+
+	function g() {
+		var e = document.documentElement;
+		if (!!window.innerWidth) {
+			return window.innerHeight
+		} else if (e && !isNaN(e.clientHeight)) {
+			return e.clientHeight
+		}
+		return 0
+	}
+
+	function y() {
+		if (window.pageYOffset) {
+			return window.pageYOffset
+		}
+		return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+	}
+
+	function E(e) {
+		var t = m(e);
+		return t >= w && t <= b + w
+	}
+
+	function S() {
+		var e = document.createElement("audio");
+		e.setAttribute("class", l);
+		e.src = i;
+		e.loop = false;
+		e.addEventListener("canplay", function() {
+			setTimeout(function() {x(k)}, 500);
+			setTimeout(function() {
+					N();
+					p();
+					for (var e = 0; e < O.length; e++) {
+						T(O[e]) 
+					}
+				}, 15500)
+		}, true);
+		
+		e.addEventListener("ended", function() {
+				N();
+				h()
+			}, true);
+		e.innerHTML = " <p>你的浏览器不想让你High起来~.</p> <p>";
+		document.body.appendChild(e);
+		e.play()
+	}
+
+	function x(e) {
+		e.className += " " + s + " " + o
+	}
+
+	function T(e) {
+		e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+	}
+
+	function N() {
+		var e = document.getElementsByClassName(s);
+		var t = new RegExp("\\b" + s + "\\b");
+		for (var n = 0; n < e.length; ) {
+			e[n].className = e[n].className.replace(t, "")
+		}
+	}
+
+	var e = 30;
+	var t = 30;
+	var n = 350;
+	var r = 350;
+
+	var i = "/attachments/sounds/imageharlem-shake.mp3";
+	var s = "mw-harlem_shake_me";
+	var o = "im_first";
+	var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+	var a = "mw-strobe_light";
+
+	var f = "/css/imageharlem-shake-style.css";
+	var l = "mw_added_css";
+	var b = g();
+	var w = y();
+	var C = document.getElementsByTagName("*");
+	var k = null;
+	for (var L = 0; L < C.length; L++) {
+		var A = C[L];
+		if (v(A)) {
+			if (E(A)) {
+				k = A;
+				break
+			}
+		}
+
+	}
+	
+	if (A === null) {
+		console.warn("Could not find a node of the right size. Please try a different page.");
+		return
+	}
+	c();
+	S();
+	var O = [];
+	for (var L = 0; L < C.length; L++) {
+		var A = C[L];
+		if (v(A)) {
+			O.push(A)
+		}
+	}
+
+})()'>High一下</a>
+</li>
+
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/28/ubuntu_optimize/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Lixingcong">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/default_avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Lixingcong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Lixingcong" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ubuntu通用优化设置
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-28T14:15:46+00:00">
+                2015-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>自己在反复重装过程总结出的经验。可以供大家参考</p>
+<h2 id="笔记本开机亮度"><a href="#笔记本开机亮度" class="headerlink" title="笔记本开机亮度"></a>笔记本开机亮度</h2><p>每次都是来那个瞎眼的亮度，我也是醉了，14.04居然还没有修复这个bug。<br><a id="more"></a><br>跟黑苹果一个吊样。囧</p>
+<p>控制亮度的文件位置：</p>
+<ul>
+<li>对于MBR格式安装的ubuntu，控制亮度在/sys/class/backlight/acpi_video1/brightness</li>
+<li>对于GPT格式安装的，控制在/sys/class/backlight/intel_backlight/brightness</li>
+</ul>
+<p>可以测一下当前的亮度，先手动调节到合适的亮度，打印出当前的亮度值</p>
+<pre><code>cat /sys/class/backlight/intel_backlight/brightness
+</code></pre><p>比如我的是GPT，当前亮度值为480，可以将脚本写入/etc/rc.local进行加载亮度</p>
+<pre><code>vi /etc/rc.local
+echo 480 &gt; cat /sys/class/backlight/intel_backlight/brightness
+</code></pre><p>重启看看效果</p>
+<h2 id="时钟每次比CMOS快8小时"><a href="#时钟每次比CMOS快8小时" class="headerlink" title="时钟每次比CMOS快8小时"></a>时钟每次比CMOS快8小时</h2><p>这种状况主要是出现在双系统（win + linux）上，因为win默认是以cmos时间为utc+8后的时间，而ubuntu每次读取cmos时间都是以cmos时间为utc+0，解决方法：<a href="http://docs.slackware.com/howtos:hardware:syncing_hardware_clock_and_system_local_time" target="_blank" rel="external">原文链接</a></p>
+<p>解决方法</p>
+<pre><code>vi /etc/default/rcS //将UTC改为no，保存退出
+sudo rm /etc/localtime
+sudo cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+sudo hwclock --systohc --localtime    //将sys-clock与cmos同步
+</code></pre><p>检查是否设置正常：硬件和系统时间一致，且时区为CST。</p>
+<pre><code>sudo hwclock --show //显示cmos中的时间
+sudo date     //显示当前时间
+</code></pre><p>网上看到另一种方法：手动设置时区</p>
+<pre><code>dpkg-reconfigure tzdata
+</code></pre><h2 id="开机自动挂载ntfs"><a href="#开机自动挂载ntfs" class="headerlink" title="开机自动挂载ntfs"></a>开机自动挂载ntfs</h2><p>目的是开机自动挂载某个ntfs卷。首先安装gparted看看你的卷是/dev/sdxx多少。然后</p>
+<pre><code>mkdir /media/USER/NTFS
+sudo vi /etc/fstab
+#加入挂载命令
+/dev/sda6 /media/USER/NTFS ntfs defaults,locale=zh_CN.UTF-8 0 0 
+</code></pre><p>这样得到的默认权限是600，即用拥有者只能读写。其他人都不能读写。<br>如果想要更大的权限，比如755，可以添加umask为022，如下句</p>
+<pre><code>/dev/sda6 /media/USER/NTFS ntfs defaults,user,uid=1000,gid=1000,umask=022,locale=zh_CN.UTF-8 0 0
+</code></pre><p>如果想禁止自动挂载，每次手动挂载。可以添加noauto标志，只要执行mount优先执行fstab里面的命令。(以600权限为例)</p>
+<pre><code>/dev/sda6 /media/USER/NTFS ntfs defaults,noauto,locale=zh_CN.UTF-8 0 0
+</code></pre><p>若挂载ext4分区，（建议使用ext4！），可以将fstab中的/home那一行拷贝过来，改成合适的uuid，改变挂载点的拥有者为当前用户。</p>
+<pre><code>sudo mkdir /mydir
+sudo chmod username:username /mydir
+# sudo vi /etc/fstab
+# 增加一行类似/home的挂载
+UUID=54d8be7f-6bae-4512-aaef-6385c5fb6d13 /mydir ext4 defaults 0 2
+</code></pre><h2 id="转移chrome缓存"><a href="#转移chrome缓存" class="headerlink" title="转移chrome缓存"></a>转移chrome缓存</h2><p>最好的就是关机自动清除缓存，懒人必备，利用ramdisk实现，vi /etc/fstab添加</p>
+<pre><code>tmpfs /dev/shm tmpfs defaults,size=512M 0 0
+</code></pre><p>然后退出chrome，建立硬链接。</p>
+<pre><code>sudo rm -rf ~/.cache/google-chrome
+sudo ln -s /dev/shm ~/.cache/google-chrome
+</code></pre><p>测试chrome是否成功：chrome:cache</p>
+<h2 id="创建快捷方式"><a href="#创建快捷方式" class="headerlink" title="创建快捷方式"></a>创建快捷方式</h2><p>以AS为例，这是自己创建的Android Studio.desktop文件内容</p>
+<pre><code>[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Android Studio
+Exec=&quot;/home/ubuntu/programs/android-studio/bin/studio.sh&quot; %f
+Icon=/home/ubuntu/programs/android-studio/bin/studio.png
+Categories=Development;IDE;
+Terminal=false
+StartupNotify=true
+# 这个WMclass暂时不太清楚是什么东西
+StartupWMClass=jetbrains-android-studio
+Name[en_GB]=android-studio.desktop
+</code></pre><p>可以根据实际，修改图标和程序执行位置。<br>更改为可执行权限</p>
+<pre><code>chmod a+x &apos;Android Studio.desktop&apos;
+</code></pre><p>对于GNOME3桌面环境，可将其放置在系统托盘的快捷方式中，将Android Studio.desktop复制到<em>/usr/share/applications</em>下面即可。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>主要是某些小程序安装</p>
+<p>gedit disable auto-backup：</p>
+<pre><code>编辑-&gt;设置-&gt;编辑器 取消选中“保存前创建备份文件”
+</code></pre><p>安装温度监控：</p>
+<pre><code>sudo apt-get install lm-sensors
+sudo sensors-detect
+sudo apt-get install xsensors //或者ksensors(KDE中推荐使用ksensors)
+</code></pre><p>滚动条模式：</p>
+<pre><code>使用经典滚动条命令：
+gsettings set com.canonical.desktop.interface scrollbar-mode normal
+恢复overlay scoller滚动条：
+gsettings reset com.canonical.desktop.interface scrollbar-mode
+</code></pre><p>修改默认的session for 14.04</p>
+<pre><code>cat /usr/share/xsessions //记下需要设置的session名字
+sudo gedit /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
+把user-session改为适合。
+</code></pre><p>网速指示 for gnome:</p>
+<pre><code>sudo add-apt-repository ppa:nilarimogard/webupd8
+sudo apt-get update
+sudo apt-get install indicator-netspeed
+</code></pre><p>cpu表格指示 for gnome:</p>
+<pre><code>sudo apt-get install indicator-multiload
+</code></pre><p>安装星际词典：</p>
+<pre><code>sudo apt-get install stardict
+</code></pre><p>然后到<a href="http://download.huzheng.org/" target="_blank" rel="external">地址1</a>或者<a href="http://blog.sciencenet.cn/blog-203570-722938.html" target="_blank" rel="external">地址2</a>下载一个字典包，解压到一个文件夹，比如/home/ubuntu/dicts/stardict-oxford-gb-formated-2.4.2，解压到一个文件夹内，允许有词典子目录。创建链接到词典文件夹</p>
+<pre><code>sudo ln -s ~/programs/Stardict_dicts /usr/share/stardict/dic
+</code></pre><p>打开星际词典，设置词典后就可以查字典了。我用的词典主要有三个</p>
+<pre><code># 朗道英汉词典5.0 词汇量435468
+langdao-ec-gb-2.4.2
+
+# 牛津高阶词典 英英 词汇量 78075    
+Oxford_Advanced_Learner_s_Dictionary-8th
+
+# cedict汉英词典 词汇量31992
+stardict-cedict-gb-2.4.2
+</code></pre><p>安装字体：<br>YaHei.Consolas.1.12.ttf是混排字体，适合写程序。</p>
+<pre><code>mkdir ~/.fonts
+mv YaHei.Consolas.1.12.ttf ~/.fonts
+cd ~/.fonts
+chmod 744 *
+sudo mkfontscale
+sudo mkfontdir
+sudo fc-cache -f -v
+</code></pre><p>注销即可使用新字体</p>
+<p>RIME输入法(APT仓库支持)</p>
+<p>ibus-rime输入法，设置横排，用网上的教材是无效的，需要使用ibus覆盖rime设置</p>
+<pre><code>gsettings set org.freedesktop.ibus.panel lookup-table-orientation 0
+</code></pre><p>某些设置可以在运行ibus-setup设置里面看到<br>运行im-config配置多输入环境。</p>
+<p>连自定义字体都需要命令修改</p>
+<pre><code>gsettings set org.freedesktop.ibus.panel use-custom-font true
+</code></pre><p>任务栏指示当前的运行情况（cpu.ram.hdisk.net）使用<a href="https://github.com/paradoxxxzero/gnome-shell-system-monitor-applet" target="_blank" rel="external">gnome-shell-system-monitor-applet</a></p>
+<p>添加shell extension的方法：<a href="https://www.youtube.com/watch?v=etAneQtlTLQ" target="_blank" rel="external">Youtube教程</a></p>
+<p>屏幕录像</p>
+<pre><code>sudo add-apt-repository ppa:maarten-baert/simplescreenrecorder
+sudo apt-get update
+sudo apt-get install simplescreenrecorder
+</code></pre><p>SMPLAYER播放器</p>
+<pre><code>sudo add-apt-repository ppa:rvm/smplayer 
+sudo apt-get update 
+sudo apt-get install smplayer smplayer-themes smplayer-skins
+</code></pre><p>Android Studio杂项</p>
+<p>初次运行提示appt返回一个非零的值，是缺库：</p>
+<pre><code>sudo apt install lib32stdc++6
+</code></pre><p>输入法：fcixt支持</p>
+<pre><code>vi android studio/bin/studio.sh
+# 文件上方加入
+export XMODIFIERS=”@im=fcitx” 
+export GTK_IM_MODULE=”fcitx” 
+export QT_IM_MODULE=”fcitx”
+</code></pre><p>可以支持fcixt输入法框架，但是AS仍然无法跟踪光标。</p>
+<p>KDE环境快捷键修改</p>
+<p>终端：修改复制按键为ctrl+insert：配置-&gt;设置快捷键</p>
+<p>全局按win窗口快捷键：<br>进行左右侧snap：系统设置-&gt;快捷键-&gt;全局快捷键-&gt;组件KWin-&gt;将窗口快速铺到左（右）侧，最大化，最小化<br>显示桌面：系统设置-&gt;快捷键-&gt;全局快捷键-&gt;组件KWin-&gt;显示桌面</p>
+<p>多媒体（音量增减）:<br>快捷键-&gt;全局快捷键-&gt;自定义快捷键-&gt;新建如下三个动作代表静音、加、减音量</p>
+<pre><code>amixer set &apos;Master&apos; 0
+amixer set &apos;Master&apos; 10%+
+amixer set &apos;Master&apos; 10%-
+</code></pre><p>安装差异比较器（类似windows的beyond compare）</p>
+<pre><code>sudo apt install meld
+</code></pre><p>串口设备读写权限</p>
+<pre><code>sudo vi /etc/udev/rules.d/99-ttyUSB.rules
+KERNEL==&quot;ttyUSB[0-9]*&quot;,MODE=&quot;0666&quot;
+</code></pre><p>效果是：不需要使用sudo 来进行open串口</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/22/python_re_usage/" rel="next" title="Python re库 正则表达式">
+                <i class="fa fa-chevron-left"></i> Python re库 正则表达式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/29/RE_POSIX/" rel="prev" title="POSIX正则表达式">
+                POSIX正则表达式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/default_avatar.jpg"
+               alt="Lixingcong" />
+          <p class="site-author-name" itemprop="name">Lixingcong</p>
+           
+              <p class="site-description motion-element" itemprop="description">推特宅男一枚，失业中</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/lixingcong" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lixingcong" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#笔记本开机亮度"><span class="nav-number">1.</span> <span class="nav-text">笔记本开机亮度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时钟每次比CMOS快8小时"><span class="nav-number">2.</span> <span class="nav-text">时钟每次比CMOS快8小时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开机自动挂载ntfs"><span class="nav-number">3.</span> <span class="nav-text">开机自动挂载ntfs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转移chrome缓存"><span class="nav-number">4.</span> <span class="nav-text">转移chrome缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建快捷方式"><span class="nav-number">5.</span> <span class="nav-text">创建快捷方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">6.</span> <span class="nav-text">其他</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lixingcong</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+
+
+  
+  
+  <script>
+
+var click_counter=0;
+$("body").bind("click",function(e){
+	var $i=$("<elder>").text("+"+(++click_counter)+"s");
+	var x=e.pageX, y=e.pageY;
+	
+	$i.css({
+		"z-index":99999,
+		"top":y-15,
+		"left":x,
+		"position":"absolute",
+		"color":"red"
+	});
+	
+	$("body").append($i);
+	
+	$i.animate(
+		{"top":y-180,"opacity":0},
+		1500,
+		function(){$i.remove();}
+	);
+	
+	e.stopPropagation();
+});
+
+</script>
+
+
+</body>
+</html>

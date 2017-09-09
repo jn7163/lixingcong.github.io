@@ -1,0 +1,1028 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="openwrt," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="工具链(toolchain)用于交叉编译，每个工具链对应一种CPU指令集。LEDE的工具链可以编译特定的Package。没有它的话，将无法编译Package，当然也无法编译固件。">
+<meta name="keywords" content="openwrt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="获得LEDE的工具链">
+<meta property="og:url" content="http://yoursite.com/2017/02/01/lede-toolchain/index.html">
+<meta property="og:site_name" content="Lixingcong">
+<meta property="og:description" content="工具链(toolchain)用于交叉编译，每个工具链对应一种CPU指令集。LEDE的工具链可以编译特定的Package。没有它的话，将无法编译Package，当然也无法编译固件。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/lede-tc/build-the-openwrt-sdk.png">
+<meta property="og:updated_time" content="2017-09-09T13:18:06.388Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="获得LEDE的工具链">
+<meta name="twitter:description" content="工具链(toolchain)用于交叉编译，每个工具链对应一种CPU指令集。LEDE的工具链可以编译特定的Package。没有它的话，将无法编译Package，当然也无法编译固件。">
+<meta name="twitter:image" content="http://yoursite.com/images/lede-tc/build-the-openwrt-sdk.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/01/lede-toolchain/"/>
+
+
+
+
+
+  <title> 获得LEDE的工具链 | Lixingcong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-66672466-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lixingcong</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      <!--增加high一下-->
+
+<li class="mw-harlem_shake_me im_first  menu-item menu-item-tags">
+<a title="" href='javascript:(function() {
+	function c() {
+		var e = document.createElement("link");
+		e.setAttribute("type", "text/css");
+		e.setAttribute("rel", "stylesheet");
+		e.setAttribute("href", f);
+		e.setAttribute("class", l);
+		document.body.appendChild(e)
+	}
+
+	function h() {
+		var e = document.getElementsByClassName(l);
+		for (var t = 0; t < e.length; t++) {
+			document.body.removeChild(e[t])
+		}
+	}
+
+	function p() {
+		var e = document.createElement("div");
+		e.setAttribute("class", a);
+		document.body.appendChild(e);
+		setTimeout(function() {document.body.removeChild(e)}, 100)
+	}
+
+	function d(e) {
+		return {
+			height : e.offsetHeight,
+			width : e.offsetWidth
+		}
+	}
+
+	function v(i) {
+		var s = d(i);
+		return s.height > e && s.height < n && s.width > t && s.width < r
+	}
+
+	function m(e) {
+		var t = e;
+		var n = 0;
+		while (!!t) {
+			n += t.offsetTop;
+			t = t.offsetParent
+		}
+		return n
+	}
+
+	function g() {
+		var e = document.documentElement;
+		if (!!window.innerWidth) {
+			return window.innerHeight
+		} else if (e && !isNaN(e.clientHeight)) {
+			return e.clientHeight
+		}
+		return 0
+	}
+
+	function y() {
+		if (window.pageYOffset) {
+			return window.pageYOffset
+		}
+		return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+	}
+
+	function E(e) {
+		var t = m(e);
+		return t >= w && t <= b + w
+	}
+
+	function S() {
+		var e = document.createElement("audio");
+		e.setAttribute("class", l);
+		e.src = i;
+		e.loop = false;
+		e.addEventListener("canplay", function() {
+			setTimeout(function() {x(k)}, 500);
+			setTimeout(function() {
+					N();
+					p();
+					for (var e = 0; e < O.length; e++) {
+						T(O[e]) 
+					}
+				}, 15500)
+		}, true);
+		
+		e.addEventListener("ended", function() {
+				N();
+				h()
+			}, true);
+		e.innerHTML = " <p>你的浏览器不想让你High起来~.</p> <p>";
+		document.body.appendChild(e);
+		e.play()
+	}
+
+	function x(e) {
+		e.className += " " + s + " " + o
+	}
+
+	function T(e) {
+		e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+	}
+
+	function N() {
+		var e = document.getElementsByClassName(s);
+		var t = new RegExp("\\b" + s + "\\b");
+		for (var n = 0; n < e.length; ) {
+			e[n].className = e[n].className.replace(t, "")
+		}
+	}
+
+	var e = 30;
+	var t = 30;
+	var n = 350;
+	var r = 350;
+
+	var i = "/attachments/sounds/imageharlem-shake.mp3";
+	var s = "mw-harlem_shake_me";
+	var o = "im_first";
+	var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+	var a = "mw-strobe_light";
+
+	var f = "/css/imageharlem-shake-style.css";
+	var l = "mw_added_css";
+	var b = g();
+	var w = y();
+	var C = document.getElementsByTagName("*");
+	var k = null;
+	for (var L = 0; L < C.length; L++) {
+		var A = C[L];
+		if (v(A)) {
+			if (E(A)) {
+				k = A;
+				break
+			}
+		}
+
+	}
+	
+	if (A === null) {
+		console.warn("Could not find a node of the right size. Please try a different page.");
+		return
+	}
+	c();
+	S();
+	var O = [];
+	for (var L = 0; L < C.length; L++) {
+		var A = C[L];
+		if (v(A)) {
+			O.push(A)
+		}
+	}
+
+})()'>High一下</a>
+</li>
+
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/01/lede-toolchain/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Lixingcong">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/default_avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Lixingcong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Lixingcong" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                获得LEDE的工具链
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-01T08:25:49+00:00">
+                2017-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络/" itemprop="url" rel="index">
+                    <span itemprop="name">网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>工具链(toolchain)用于交叉编译，每个工具链对应一种CPU指令集。LEDE的工具链可以编译特定的Package。没有它的话，将无法编译Package，当然也无法编译固件。<br><a id="more"></a></p>
+<h2 id="工具链简介"><a href="#工具链简介" class="headerlink" title="工具链简介"></a>工具链简介</h2><p>它通常有一个固定的前缀(prefix)，比如</p>
+<pre><code>arm-openwrt-linux-uclibcgnueabi
+</code></pre><p>那么这个工具链里面，很多的二进制编译器链接器调试器就这样命名</p>
+<pre><code>arm-openwrt-linux-uclibcgnueabi-gcc
+arm-openwrt-linux-uclibcgnueabi-ar
+arm-openwrt-linux-uclibcgnueabi-gdb
+</code></pre><p>默认情况下，当我们git克隆了openwrt/LEDE的源码后，并没有获得工具链的二进制文件。我们可以有两种方法获得工具链。</p>
+<p>下文的target system为MT7620N，对应的prefix为</p>
+<pre><code>mipsel-openwrt-linux
+</code></pre><p>对应的工具链名称为</p>
+<pre><code>toolchain-mipsel_24kc_gcc
+</code></pre><h2 id="法一：源码编译"><a href="#法一：源码编译" class="headerlink" title="法一：源码编译"></a>法一：源码编译</h2><p>这种方法优点是能获得最新的工具链，但是在低端电脑上面编译耗时间较长。</p>
+<p>执行make menuconfig后，选择好target system后，回到主菜单中有如下一项，勾选以编译SDK（即工具链）</p>
+<p><img src="/images/lede-tc/build-the-openwrt-sdk.png" alt=""></p>
+<p>这样保存退出后，编译</p>
+<pre><code># 双线程编译
+make -j2
+</code></pre><p>我的i5 3317u编译了差不多半小时。获得target固件在bin目录下。SDK的位置在staging_dir目录下。</p>
+<h2 id="法二：使用预编译工具链"><a href="#法二：使用预编译工具链" class="headerlink" title="法二：使用预编译工具链"></a>法二：使用预编译工具链</h2><p>这种方法优点最方便，但是获得的工具链的版本可能较老。</p>
+<p>执行make menuconfig后，不勾选编译SDK</p>
+<p>如果此时我们选择一个package编译，例如aria2</p>
+<pre><code>make package/aria2/compile V=99
+</code></pre><p>就会出现找不到工具链的错误。这就证明了没有工具链是无法编译package的。</p>
+<p>此时在lede源码目录的staging_dir中会生成一个新的文件夹，名称如下（后面版本号也许有差异）</p>
+<pre><code>toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16
+</code></pre><p>解决思路：我们从LEDE官网中下载工具链的预编译二进制文件，建立符号链接到该自动生成的toolchain目录，让LEDE认为工具链已经就绪。</p>
+<p>从官网下载合适target的工具链，解压缩，比如我的是MT7620N的工具链。</p>
+<pre><code># 下载目录
+cd /home/ubuntu/toolchain
+
+wget https://downloads.lede-project.org/releases/17.01.0-rc1/targets/ramips/mt7620/lede-sdk-17.01.0-rc1-ramips-mt7620_gcc-5.4.0_musl-1.1.15.Linux-x86_64.tar.xz
+
+# 解压
+tar xf *.tar.xz
+</code></pre><p>在LEDE源码目录建立符号链接即可</p>
+<pre><code>cd /home/ubuntu/lede
+
+# 删掉原来的无效toolchain文件夹
+rm -rf staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16
+</code></pre><p>将下载的toochain符号链接到原来的无效toolchain文件夹，注意使用绝对路径比较保险</p>
+<pre><code>ln -s /home/ubuntu/toolchain/lede-sdk-17.01.0-rc1-ramips-mt7620_gcc-5.4.0_musl-1.1.15.Linux-x86_64/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15 \
+      /home/ubuntu/lede/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16
+</code></pre><p>替换原来的host文件夹</p>
+<pre><code># 删掉原来的无效host文件夹
+rm -rf staging_dir/host
+</code></pre><p>将下载的host符号链接到原来的无效host文件夹</p>
+<pre><code>ln -s /home/ubuntu/toolchain/lede-sdk-17.01.0-rc1-ramips-mt7620_gcc-5.4.0_musl-1.1.15.Linux-x86_64/staging_dir/host
+      /home/ubuntu/lede/staging_dir/host
+</code></pre><h2 id="多个工具链并存"><a href="#多个工具链并存" class="headerlink" title="多个工具链并存"></a>多个工具链并存</h2><p>比如我有MT7620N和AR71xx两个工具链，那么host文件夹无需重复替换。我认为host文件夹与target无关。</p>
+<p>多个工具链并存的好处就是可以在make menuconfig选择不同的target编译出不同CPU架构的二进制package，比较方便实现一份源码编译出不同target的二进制。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/openwrt/" rel="tag"># openwrt</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/06/create-multiple-ip-addresses-to-one-interface/" rel="next" title="单网络接口多IP设置">
+                <i class="fa fa-chevron-left"></i> 单网络接口多IP设置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/07/twidere-api/" rel="prev" title="自建Twidere API">
+                自建Twidere API <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/default_avatar.jpg"
+               alt="Lixingcong" />
+          <p class="site-author-name" itemprop="name">Lixingcong</p>
+           
+              <p class="site-description motion-element" itemprop="description">推特宅男一枚，失业中</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/lixingcong" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lixingcong" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工具链简介"><span class="nav-number">1.</span> <span class="nav-text">工具链简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#法一：源码编译"><span class="nav-number">2.</span> <span class="nav-text">法一：源码编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#法二：使用预编译工具链"><span class="nav-number">3.</span> <span class="nav-text">法二：使用预编译工具链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多个工具链并存"><span class="nav-number">4.</span> <span class="nav-text">多个工具链并存</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lixingcong</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+
+
+  
+  
+  <script>
+
+var click_counter=0;
+$("body").bind("click",function(e){
+	var $i=$("<elder>").text("+"+(++click_counter)+"s");
+	var x=e.pageX, y=e.pageY;
+	
+	$i.css({
+		"z-index":99999,
+		"top":y-15,
+		"left":x,
+		"position":"absolute",
+		"color":"red"
+	});
+	
+	$("body").append($i);
+	
+	$i.animate(
+		{"top":y-180,"opacity":0},
+		1500,
+		function(){$i.remove();}
+	);
+	
+	e.stopPropagation();
+});
+
+</script>
+
+
+</body>
+</html>
